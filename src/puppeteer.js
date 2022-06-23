@@ -12,9 +12,9 @@ const nodeModulePathWithPuppeteerConfig = nodeModulePaths.find(p => {
     return fs.existsSync(pathToTest);
 });
 
-const puppeteerConfigPath = getFullPuppeteerPath(
-    nodeModulePathWithPuppeteerConfig
-);
+const puppeteerConfigPath = !process.versions.pnp
+    ? getFullPuppeteerPath(nodeModulePathWithPuppeteerConfig)
+    : path.dirname(require.resolve('puppeteer'));
 
 module.exports = {
     getChromiumRevision: () => {
